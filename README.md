@@ -1,11 +1,6 @@
 # 스프링부트 시큐리티 + JWT
 
-## 리엑트 연동 참고
-https://bezkoder.com/spring-boot-react-jwt-auth/
-
-## 인증
-
-### Springboot
+## Springboot
 - 의존성
   - Spring Web
   - Spring Data JPA
@@ -16,6 +11,11 @@ https://bezkoder.com/spring-boot-react-jwt-auth/
 
 - 추가 의존성
   - java-jwt
+
+## 리엑트 연동 참고
+https://bezkoder.com/spring-boot-react-jwt-auth/
+
+## 인증
 
 ### UsernamePasswordAuthenticationFilter 등록
 
