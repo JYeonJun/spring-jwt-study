@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 
 @RestController
-//@RequestMapping("api/v1")
+@RequestMapping("api/v1")
 @RequiredArgsConstructor
 // @CrossOrigin  // CORS 허용
 public class RestApiController {

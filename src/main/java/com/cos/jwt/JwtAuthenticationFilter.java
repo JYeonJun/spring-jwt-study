@@ -76,20 +76,21 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         PrincipalDetails principalDetails = (PrincipalDetails) authResult.getPrincipal();
 
         // build.gradle 파일 - implementation group: 'com.auth0', name: 'java-jwt', version: '4.2.1'
-        /*String jwtToken = JWT.create()
-                .withSubject(principalDetails.getUsername())
-                .withExpiresAt(new Date(System.currentTimeMillis()+JwtProperties.EXPIRATION_TIME))
-                .withClaim("id", principalDetails.getUser().getId())
-                .withClaim("username", principalDetails.getUser().getUsername())
-                .sign(Algorithm.HMAC512(JwtProperties.SECRET));*/
 
         // RSA 방식이 아닌 Hash 암호화 방식
-        String jwtToken = JWT.create()
+        /*String jwtToken = JWT.create()
                 .withSubject("cos 토큰")
                 .withExpiresAt(new Date(System.currentTimeMillis() + (60000 * 10))) // 토큰 만료시간은 10분
                 .withClaim("id", principalDetails.getUser().getId()) // withClaim에는 넣고 싶은 key + value 값
                 .withClaim("username", principalDetails.getUser().getUsername())
-                .sign(Algorithm.HMAC512("cos")); // 개인키를 가지고 있어야 한다.
+                .sign(Algorithm.HMAC512("cos")); // 개인키를 가지고 있어야 한다.*/
+
+        String jwtToken = JWT.create()
+                .withSubject(principalDetails.getUsername())
+                .withExpiresAt(new Date(System.currentTimeMillis()+JwtProperties.EXPIRATION_TIME))
+                .withClaim("id", principalDetails.getUser().getId())
+                .withClaim("username", principalDetails.getUser().getUsername())
+                .sign(Algorithm.HMAC512(JwtProperties.SECRET));
 
         response.addHeader("Authorization", "Bearer " + jwtToken);
 

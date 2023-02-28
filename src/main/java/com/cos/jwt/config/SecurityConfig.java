@@ -1,12 +1,13 @@
 package com.cos.jwt.config;
 
 import com.cos.jwt.JwtAuthenticationFilter;
+import com.cos.jwt.JwtAuthorizationFilter;
 import com.cos.jwt.filter.MyFilter1;
+import com.cos.jwt.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -24,7 +25,10 @@ public class SecurityConfig {
 
     private final CorsConfigurationSource corsConfigurationSource;
 
+    private final UserRepository userRepository;
+
     private AuthenticationConfiguration authenticationConfiguration;
+
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -42,7 +46,8 @@ public class SecurityConfig {
 
         // 직접 생성한 필터는 시큐리티 필터가 실행되기 전에 먼저 동작해야 한다.
         http.addFilter(new JwtAuthenticationFilter(authenticationManager(authenticationConfiguration))); // AuthenticationManager를 파라미터로 전달해줘야 한다.
-        http.addFilterBefore(new MyFilter1(), SecurityContextPersistenceFilter.class);
+        http.addFilter(new JwtAuthorizationFilter(authenticationManager(authenticationConfiguration), userRepository)); // AuthenticationManager를 파라미터로 전달해줘야 한다.
+//        http.addFilterBefore(new MyFilter1(), SecurityContextPersistenceFilter.class);
 
         http
                 .sessionManagement() // 세션 관리 기능 작동
